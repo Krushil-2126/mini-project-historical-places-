@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scroll-Triggered Transition</title>
+    <style>
+        /* Smooth scrolling */
+        html, body {
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+
+        /* Container to allow scrolling */
+        .container {
+            width: 100%;
+            height: 250vh; /* Makes scrolling possible */
+        }
+
+        /* White Section */
+        .white-section {
+            height: 100vh;
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        /* Transition Section */
+        .transition {
+            height: 100vh;
+            background: linear-gradient(to bottom, white, black);
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+            position: relative;
+        }
+
+        /* Black Section */
+        .black-section {
+            height: 100vh;
+            background: black;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        /* Trigger transition when scrolled into view */
+        .transition.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <section class="white-section">
+            <h1>White Section</h1>
+            <p>Scroll down to see the transition effect.</p>
+        </section>
+        <section class="transition" id="transition"></section>
+        <section class="black-section">
+            <h1>Black Section</h1>
+            <p>The transition effect occurs every time you scroll down.</p>
+        </section>
+    </div>
+
+    <script>
+        const transitionSection = document.getElementById("transition");
+
+        function handleScroll() {
+            const rect = transitionSection.getBoundingClientRect();
+            if (rect.top < window.innerHeight && rect.bottom > 0) {
+                transitionSection.classList.add("visible");
+            } else {
+                transitionSection.classList.remove("visible");
+            }
+        }
+
+        window.addEventListener("scroll", handleScroll);
+    </script>
+</body>
+</html>
